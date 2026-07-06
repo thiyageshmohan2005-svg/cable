@@ -9,6 +9,13 @@ for (const key of required) {
   }
 }
 
+// Database configuration
+const dbHost = process.env.DB_HOST || "127.0.0.1";
+const dbPort = Number(process.env.DB_PORT || 3306);
+const dbUser = process.env.DB_USER || "root";
+const dbPassword = process.env.DB_PASSWORD || "";
+const dbName = process.env.DB_NAME || "cablepro";
+
 module.exports = {
   nodeEnv,
   port: Number(process.env.PORT || 5000),
@@ -23,15 +30,18 @@ module.exports = {
   backupDir: process.env.BACKUP_DIR || "./backups",
   mysqldumpPath: process.env.MYSQLDUMP_PATH || "mysqldump",
   db: {
-    host: process.env.DB_HOST || "127.0.0.1",
-    port: Number(process.env.DB_PORT || 3306),
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME || "cablepro",
+    host: dbHost,
+    port: dbPort,
+    user: dbUser,
+    password: dbPassword,
+    database: dbName,
     waitForConnections: true,
     connectionLimit: Number(process.env.DB_CONNECTION_LIMIT || 20),
+    queueLimit: 0,
     namedPlaceholders: true,
     decimalNumbers: true,
-    timezone: "Z"
+    timezone: "Z",
+    supportBigNumbers: true,
+    bigNumberStrings: true
   }
 };
