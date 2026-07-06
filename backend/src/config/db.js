@@ -3,6 +3,16 @@ const env = require("./env");
 
 const pool = mysql.createPool(env.db);
 
+async function testConnection() {
+  const connection = await pool.getConnection();
+  try {
+    await connection.ping();
+    return true;
+  } finally {
+    connection.release();
+  }
+}
+
 async function query(sql, params = {}) {
   const [rows] = await pool.execute(sql, params);
   return rows;
@@ -25,6 +35,7 @@ async function transaction(work) {
 
 module.exports = {
   pool,
+  testConnection,
   query,
   transaction
 };

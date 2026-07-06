@@ -25,6 +25,10 @@ app.use(
   })
 );
 
+app.get("/", (_req, res) => {
+  res.json({ status: "ok", service: "CablePro API", health: "/health" });
+});
+
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "CablePro API" });
 });
